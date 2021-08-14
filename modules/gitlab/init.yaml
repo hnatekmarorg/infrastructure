@@ -21,5 +21,4 @@
           - gitlab-ee
 
       environment:
-        EXTERNAL_URL: https://gitlab.hnatekmar.xyz
-        LETSENCRYPT: false
+        EXTERNAL_URL: http://gitlab.hnatekmar.xyz
