@@ -1,0 +1,9 @@
+- name: Prepare kubernetes
+  hosts: kube
+  remote_user: root
+
+  tasks:
+    - name: Install prerequisites
+      apt:
+        pkg:
+          - curl
