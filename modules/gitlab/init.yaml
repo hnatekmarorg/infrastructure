@@ -1,0 +1,24 @@
+- name: Install gitlab
+  hosts: gitlab_server
+  remote_user: root
+
+  tasks:
+    - name: Install prerequisites
+      apt:
+        pkg:
+          - curl
+          - openssh-server
+          - ca-certificates
+          - perl
+          - gnupg2
+    - name: Add gitlab package repository
+      shell: curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | bash
+
+    - name: Install gitlab
+      apt:
+        update_cache: yes
+        pkg:
+          - gitlab-ee
+
+      environment:
+        EXTERNAL_URL: https://gitlab.hnatekmar.xyz
