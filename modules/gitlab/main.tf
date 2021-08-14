@@ -22,6 +22,7 @@ resource "proxmox_vm_qemu" "gitlab" {
   sshkeys = file("~/.ssh/id_ed25519.pub")
   provisioner "local-exec" {
     command = "ansible-playbook -i inventory.ini init.yaml"
+    working_dir = "./modules/gitlab"
   }
 }
 

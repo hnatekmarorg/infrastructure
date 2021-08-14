@@ -14,6 +14,7 @@ variable"PROXMOX_HOST" {
 provider "proxmox" {
   pm_api_url = var.PROXMOX_HOST
   pm_tls_insecure = true
+  pm_parallel = 1
 }
 
 module "gitlab" {
