@@ -6,11 +6,14 @@ terraform {
   }
 }
 
-resource "proxmox_lxc" "basic" {
+resource "proxmox_lxc" "proxy" {
   target_node  = "ps0"
   hostname     = "proxy"
   ostemplate   = "nas:vztmpl/ubuntu-21.04-standard_21.04-1_amd64.tar.gz"
   unprivileged = true
+
+  onboot = true
+  start = true
 
   // Terraform will crash without rootfs defined
   rootfs {
@@ -23,11 +26,12 @@ resource "proxmox_lxc" "basic" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "dhcp"
+    ip     = "172.16.100.65/24"
+    gw = "172.16.100.1"
   }
 
   provisioner "local-exec" {
-    command = "ansible-playbook -i inventory.ini init.yaml"
+    command = "sleep 60 && ansible-playbook -i inventory.ini init.yaml"
     working_dir = "./modules/proxy"
   }
 }

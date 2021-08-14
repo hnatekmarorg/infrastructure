@@ -1,7 +1,6 @@
 - name: Install gitlab
-  hosts: gitlab_server
+  hosts: all
   remote_user: root
-
   tasks:
     - name: Install prerequisites
       apt:
@@ -9,23 +8,20 @@
           - debian-keyring
           - debian-archive-keyring
           - apt-transport-https
-
+          - curl
     - name: Add caddy repository
-      shell:
-       - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo tee /etc/apt/trusted.gpg.d/caddy-stable.asch
-       - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
-
-    - name: Install caddy
-      apt:
-        update_cache: yes
-        pkg:
-          - caddy
+      shell: "{{ item }}"
+      with_items:
+        - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | tee /etc/apt/trusted.gpg.d/caddy-stable.asc
+        - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
+        - apt-get update
+        - apt install caddy
 
     - name: Copy caddyfile
       copy:
         src: Caddyfile
-        dest: /etc/caddy
+        dest: /etc/caddy/Caddyfile
         force: yes
 
     - name: Reboot proxy
-      shell: caddy reload
+      shell: caddy reload --config /etc/caddy/Caddyfile
