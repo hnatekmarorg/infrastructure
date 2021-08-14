@@ -22,3 +22,4 @@
 
       environment:
         EXTERNAL_URL: https://gitlab.hnatekmar.xyz
+        LETSENCRYPT: false

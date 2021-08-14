@@ -10,7 +10,7 @@ resource "proxmox_vm_qemu" "gitlab" {
   name = "gitlab-server"
   desc = "Server with gitlab on it"
   target_node = "ps2"
-
+  agent = 1
   clone = "debian-base"
   full_clone = true
   boot = "order=scsi0"
