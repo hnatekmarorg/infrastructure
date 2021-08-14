@@ -24,3 +24,7 @@ module "gitlab" {
 module "proxy" {
   source = "./modules/proxy"
 }
+
+module "kubernetes" {
+  source = "./modules/kubernetes"
+}

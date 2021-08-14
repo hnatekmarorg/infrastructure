@@ -26,7 +26,7 @@ resource "proxmox_lxc" "proxy" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "172.16.100.65/24"
+    ip     = "172.16.100.61/24"
     gw = "172.16.100.1"
   }
 

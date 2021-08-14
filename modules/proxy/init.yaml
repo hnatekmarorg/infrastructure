@@ -5,23 +5,34 @@
     - name: Install prerequisites
       apt:
         pkg:
-          - debian-keyring
-          - debian-archive-keyring
-          - apt-transport-https
-          - curl
-    - name: Add caddy repository
-      shell: "{{ item }}"
-      with_items:
-        - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | tee /etc/apt/trusted.gpg.d/caddy-stable.asc
-        - curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | tee /etc/apt/sources.list.d/caddy-stable.list
-        - apt-get update
-        - apt install caddy
+          - nginx
 
-    - name: Copy caddyfile
+    - name: Copy config
       copy:
-        src: Caddyfile
-        dest: /etc/caddy/Caddyfile
+        src: nginx.conf
+        dest: /etc/nginx/nginx.conf
         force: yes
 
-    - name: Reboot proxy
-      shell: caddy reload --config /etc/caddy/Caddyfile
+
+    - name: Decode certs
+      shell: sops -d -i certs.tar.gz
+      delegate_to: 127.0.0.1
+
+    - name: Copy certs to target
+      copy:
+        src: certs.tar.gz
+        dest: /root/certs.tar.gz
+        force: yes
+
+    - name: Encrypt certs
+      shell: sops -e -a age1kmekcggsc7yuger35jklhv7k74uf78wfgv2cgj6hren4vjskcumq5xar4q -i certs.tar.gz
+      delegate_to: 127.0.0.1
+
+    - name: Unzip certs
+      unarchive:
+        src: /root/certs.tar.gz
+        dest: /root/
+        remote_src: yes
+
+    - name: Reload nginx
+      shell: systemctl restart nginx
