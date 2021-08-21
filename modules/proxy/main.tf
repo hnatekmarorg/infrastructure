@@ -30,9 +30,9 @@ resource "proxmox_lxc" "proxy" {
     gw = "172.16.100.1"
   }
 
-  provisioner "local-exec" {
-    command = "sleep 60 && ansible-playbook -i inventory.ini init.yaml"
-    working_dir = "./modules/proxy"
-  }
+//  provisioner "local-exec" {
+//    command = "sleep 60 && ansible-playbook -i inventory.ini init.yaml"
+//    working_dir = "./modules/proxy"
+//  }
 }
 

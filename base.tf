@@ -17,13 +17,13 @@ provider "proxmox" {
   pm_parallel = 8
 }
 
-module "gitlab" {
-  source = "./modules/gitlab"
-}
-
-module "proxy" {
-  source = "./modules/proxy"
-}
+//module "gitlab" {
+//  source = "./modules/gitlab"
+//}
+//
+//module "proxy" {
+//  source = "./modules/proxy"
+//}
 
 module "kubernetes" {
   source = "./modules/kubernetes"
