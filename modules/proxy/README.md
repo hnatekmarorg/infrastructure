@@ -1,1 +1,0 @@
-Gitlab provider for terraform

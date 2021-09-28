@@ -15,17 +15,24 @@
   hosts: kubernetes_master
   remote_user: root
   tasks:
+    - name: Check if k3s is installed on node
+      register: k3s_service
+      stat: path=/etc/systemd/system/k3s.service
+
     - name: Install k3s on all nodes
       delegate_to: 127.0.0.1
       command: k3sup install --host "{{ item }}" --ssh-key ~/.ssh/id_ed25519 --user root --local-path ~/.kube/kubeconfig
+      when: k3s_service.stat.exists == false
       with_items:
         - 172.16.100.91
-#        - 172.16.100.92
-#        - 172.16.100.93
     - name: Join all nodes
       delegate_to: 127.0.0.1
       command: k3sup join --ip "{{ item }}" --server-ip 172.16.100.91 --ssh-key ~/.ssh/id_ed25519 --user root
+      when: k3s_service.stat.exists == false
       with_items:
         - 172.16.100.92
         - 172.16.100.93
 
+    - name: Initialize flux
+      command: flux bootstrap github --owner=hnatekmar --repository=kubernetes --branch=main --path=./clusters/home --personal
+      when: k3s_service.stat.exists == false
