@@ -1,4 +1,4 @@
-![CI](https://woodpecker.hnatekmar.xyz/api/badges/1/status.svg)
+[![CI](https://woodpecker.hnatekmar.xyz/api/badges/1/status.svg)](https://woodpecker.hnatekmar.xyz/repos/1)
 # Usage
 Create env variables with info about your cluster:
 
