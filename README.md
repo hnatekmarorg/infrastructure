@@ -1,3 +1,4 @@
+![CI](https://woodpecker.hnatekmar.xyz/api/badges/1/status.svg)
 # Usage
 Create env variables with info about your cluster:
 
