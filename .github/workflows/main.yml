@@ -1,0 +1,30 @@
+name: Actions Runner Controller Demo
+on:
+  workflow_dispatch:
+
+jobs:
+  Explore-GitHub-Actions:
+    # You need to use the INSTALLATION_NAME from the previous step
+    runs-on: arc-runner-set
+    steps:
+    - run: echo "🎉 This job uses runner scale set runners!"
+    - name: Install Podman
+      # You may pin to the exact commit or the version.
+      # uses: gacts/install-podman@96e73075ee4b6669429c80458d063924472fb04d
+      uses: gacts/install-podman@v1.1.1
+      with:
+        cache-salt: "test"
+    - name: Podman Build & Push (GCR)
+      # You may pin to the exact commit or the version.
+      # uses: webgtx/gcr-podman-action@2e0bb8f931ff921a650fdbcb1b41b730566722fe
+      uses: webgtx/gcr-podman-action@v2.1
+      with:
+        # registry host
+        host: gitea.hnatekmar.xyz
+        # project id
+        project_id: infrastructure
+        # access token or json key
+        access_token: test
+        # image tag name
+        image_id: github
+          
