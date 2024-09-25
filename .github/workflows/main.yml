@@ -12,7 +12,7 @@ jobs:
     steps:
     - run: echo "🎉 This job uses runner scale set runners!"
     - name: Install Podman
-      run: apt-get update && apt-get -y install podman
+      run: sudo apt-get update && sudo apt-get -y install podman
     - name: Podman Build & Push (GCR)
       # You may pin to the exact commit or the version.
       # uses: webgtx/gcr-podman-action@2e0bb8f931ff921a650fdbcb1b41b730566722fe
